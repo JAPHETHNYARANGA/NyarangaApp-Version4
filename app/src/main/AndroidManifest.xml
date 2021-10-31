@@ -3,10 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.moringaschool.nyaranga_social_app_version2">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
@@ -17,6 +22,7 @@
         android:theme="@style/Theme.Nyarangasocialappversion2"
         tools:replace="android:appComponentFactory"
         tools:targetApi="p">
+        <activity android:name=".controller.ui.ProfileActivity"></activity>
         <activity android:name=".controller.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,14 +32,13 @@
         </activity>
         <activity android:name=".controller.ui.CreateAccountActivity" />
         <activity android:name=".controller.ui.ContactUs" />
-        <activity android:name=".controller.ui.DetailActivity">
-
-        </activity>
+        <activity android:name=".controller.ui.DetailActivity"></activity>
         <activity android:name=".controller.ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".controller.ui.MainActivity" />
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.moringaschool.android.fileprovider"
@@ -41,7 +46,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 
