@@ -3,6 +3,7 @@ package com.moringaschool.nyaranga_social_app_version2.controller.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -21,5 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
 
        myimage = findViewById(R.id.myimage);
     }
+    public void uploadImage(View v){
 
+    }
 }
