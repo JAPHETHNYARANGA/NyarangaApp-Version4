@@ -26,6 +26,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button cameraBtn,galleryBtn;
     String currentPhotoPath;
     StorageReference storageReference;
+    TextView bioStatus;
 
     private EditText mBio;
     private Button button;
@@ -68,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
+        bioStatus = findViewById(R.id.bioView);
         mBio =findViewById(R.id.bio);
         button=findViewById(R.id.updateBio);
 
@@ -96,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
+                bioStatus.setText(value);
                 Log.d(TAG, "Value is: " + value);
             }
 
@@ -105,6 +108,9 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+
+
 
         selectedImage = findViewById(R.id.displayImageView);
         cameraBtn = findViewById(R.id.cameraBtn);

@@ -49,11 +49,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/bioView"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="my bio uploaded resides here"/>
         <EditText
             android:id="@+id/bio"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:hint="Enter Your bio here"
+            android:hint="Update Your bio here"
             />
 
            <Button
