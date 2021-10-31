@@ -11,4 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:src="@drawable/avatar" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Profile Picture"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#fff"
+        android:onClick="uploadImage"
+        />
 </RelativeLayout>
