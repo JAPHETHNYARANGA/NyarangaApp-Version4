@@ -45,5 +45,24 @@
             app:layout_constraintStart_toEndOf="@+id/cameraBtn"
             app:layout_constraintTop_toTopOf="@+id/cameraBtn" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/bio"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="Enter Your bio here"
+            />
+
+           <Button
+               android:id="@+id/updateBio"
+               android:layout_width="wrap_content"
+               android:text="Update"
+               android:layout_gravity="center_horizontal"
+               android:layout_height="wrap_content"  />
+
+    </LinearLayout>
 
 </LinearLayout>
