@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.moringaschool.nyaranga_social_app_version2.R;
 
 import java.io.ByteArrayOutputStream;
@@ -52,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         byte bb[] = bytes.toByteArray();
-        String file = Base64.encodeToString(bb, Base64.DEFAULT);
         myimage.setImageBitmap(thumbnail);
         
         uploadToFirebase(bb);
@@ -60,5 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void uploadToFirebase(byte[] bb) {
+        StorageReference sr = mstorageRef.child("myimages/a.jpg");
+        sr.putBytes(bb).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+            }
+        })
     }
 }
