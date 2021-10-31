@@ -29,18 +29,25 @@ public class ContactUs extends AppCompatActivity {
         setContentView(R.layout.activity_contact_us);
 
         ButterKnife.bind(this);
-    etTo.setEnabled(false);
-    btSend.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_VIEW , Uri.parse("mailto:" + etTo.getText().toString()));
-            intent.putExtra(Intent.EXTRA_SUBJECT, etSubject.getText().toString());
-            intent.putExtra(Intent.EXTRA_TEXT, etMessage.getText().toString());
-            startActivity(intent);
-        }
-    });
-    }
+        etTo.setEnabled(false);
 
+        btSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW , Uri.parse("mailto:" + etTo.getText().toString()));
+                intent.putExtra(Intent.EXTRA_SUBJECT, etSubject.getText().toString());
+                intent.putExtra(Intent.EXTRA_TEXT, etMessage.getText().toString());
+                startActivity(intent);
+
+            }
+        });
+
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 
 
