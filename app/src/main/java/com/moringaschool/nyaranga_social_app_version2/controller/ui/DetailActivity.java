@@ -42,12 +42,20 @@ public class DetailActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
+
                 } else {
 
                 }
             }
         };
-
+        Button button = (Button)findViewById(R.id.profile);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         btn.setOnClickListener(new View.OnClickListener() {

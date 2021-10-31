@@ -10,15 +10,9 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:padding="30dp" >
+
       <TextView
-          android:id="@+id/hello"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Github"
-          android:textColor="#CA582E"
-          android:textSize="20dp" />
-      <TextView
-          android:layout_below="@+id/hello"
+          android:layout_below="@+id/profile"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="Github Api App"
@@ -33,6 +27,14 @@
           android:layout_height="35dp"
           android:layout_alignParentRight="true"
           android:text="Search Repository"
+          android:textSize="10dp"
+          />
+      <Button
+          android:id="@+id/profile"
+          android:layout_width="wrap_content"
+          android:layout_height="35dp"
+          android:layout_alignParentRight="false"
+          android:text="Profile"
           android:textSize="10dp"
           />
 
