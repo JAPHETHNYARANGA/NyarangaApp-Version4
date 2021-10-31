@@ -54,6 +54,11 @@ public class ProfileActivity extends AppCompatActivity {
         byte bb[] = bytes.toByteArray();
         String file = Base64.encodeToString(bb, Base64.DEFAULT);
         myimage.setImageBitmap(thumbnail);
+        
+        uploadToFirebase(bb);
 
+    }
+
+    private void uploadToFirebase(byte[] bb) {
     }
 }
