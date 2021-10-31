@@ -75,6 +75,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onFailure(@NonNull  Exception e) {
                 Toast.makeText(ProfileActivity.this,"Failed to Upload", Toast.LENGTH_SHORT).show();
             }
-        })
+        });
     }
 }
