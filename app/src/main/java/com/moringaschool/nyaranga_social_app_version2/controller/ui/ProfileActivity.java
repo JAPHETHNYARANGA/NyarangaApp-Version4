@@ -13,6 +13,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,12 +68,12 @@ public class ProfileActivity extends AppCompatActivity {
         sr.putBytes(bb).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                Toast.makeText(ProfileActivity.this,"uploaded successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
-
+            public void onFailure(@NonNull  Exception e) {
+                Toast.makeText(ProfileActivity.this,"Failed to Upload", Toast.LENGTH_SHORT).show();
             }
         })
     }
