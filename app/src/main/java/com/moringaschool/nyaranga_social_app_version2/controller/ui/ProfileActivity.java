@@ -145,12 +145,12 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(MainActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Upload Failled.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Upload Failled.", Toast.LENGTH_SHORT).show();
             }
         });
 
