@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".controller.ui.ProfileActivity">
 
+    <ImageView
+        android:id="@+id/myimage"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/avatar" />
 </RelativeLayout>
