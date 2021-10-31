@@ -3,15 +3,20 @@ package com.moringaschool.nyaranga_social_app_version2.controller.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,20 +30,46 @@ import com.moringaschool.nyaranga_social_app_version2.R;
 import java.io.ByteArrayOutputStream;
 
 public class ProfileActivity extends AppCompatActivity {
-    private StorageReference mstorageRef;
-    ImageView myimage;
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    public static final int GALLERY_REQUEST_CODE = 105;
+    ImageView selectedImage;
+    Button cameraBtn,galleryBtn;
+    String currentPhotoPath;
+    StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-       mstorageRef = FirebaseStorage.getInstance().getReference();
+        selectedImage = findViewById(R.id.displayImageView);
+        cameraBtn = findViewById(R.id.cameraBtn);
+        galleryBtn = findViewById(R.id.galleryBtn);
 
-       myimage = findViewById(R.id.myimage);
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askCameraPermissions();
+            }
+        });
+
+        galleryBtn.setOnClickListener(v -> {
+            Intent gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+        });
+
     }
-    public void uploadImage(View v){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,101);
+    private void askCameraPermissions() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        }else {
+            dispatchTakePictureIntent();
+        }
+
     }
 
     @Override
