@@ -128,18 +128,27 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void uploadToFirebase(byte[] bb) {
-        StorageReference sr = mstorageRef.child("myimages/a.jpg");
-        sr.putBytes(bb).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    private void uploadImageToFirebase(String name, Uri contentUri) {
+        final StorageReference image = storageReference.child("pictures/" + name);
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(ProfileActivity.this,"uploaded successfully", Toast.LENGTH_SHORT).show();
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d("tag", "onSuccess: Uploaded Image URl is " + uri.toString());
+                    }
+                });
+
+                Toast.makeText(MainActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull  Exception e) {
-                Toast.makeText(ProfileActivity.this,"Failed to Upload", Toast.LENGTH_SHORT).show();
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Upload Failled.", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
-}
+
+
