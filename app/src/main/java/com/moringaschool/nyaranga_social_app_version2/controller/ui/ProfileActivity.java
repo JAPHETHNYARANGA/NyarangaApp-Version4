@@ -20,13 +20,21 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +46,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.content.ContentValues.TAG;
+
 public class ProfileActivity extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -47,10 +57,54 @@ public class ProfileActivity extends AppCompatActivity {
     String currentPhotoPath;
     StorageReference storageReference;
 
+    private EditText mBio;
+    private Button button;
+
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference root= db.getReference("message");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+
+        mBio =findViewById(R.id.bio);
+        button=findViewById(R.id.updateBio);
+
+        //zooming
+
+        final ImageView zoom = (ImageView) findViewById(R.id.displayImageView);
+
+        final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+        zoom.startAnimation(zoomAnimation);
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String bio = mBio.getText().toString();
+                root.setValue(bio);
+                mBio.getText().clear();
+            }
+        });
+        // Read from the database
+        root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         selectedImage = findViewById(R.id.displayImageView);
         cameraBtn = findViewById(R.id.cameraBtn);
@@ -71,6 +125,8 @@ public class ProfileActivity extends AppCompatActivity {
             startActivityForResult(gallery, GALLERY_REQUEST_CODE);
         });
 
+        //zoom image
+
     }
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -80,7 +136,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
