@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -28,6 +29,9 @@ import com.google.firebase.storage.UploadTask;
 import com.moringaschool.nyaranga_social_app_version2.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
@@ -84,16 +88,45 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap)data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        byte bb[] = bytes.toByteArray();
-        myimage.setImageBitmap(thumbnail);
-        
-        uploadToFirebase(bb);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                File f = new File(currentPhotoPath);
+                selectedImage.setImageURI(Uri.fromFile(f));
+                Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
+
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri contentUri = Uri.fromFile(f);
+                mediaScanIntent.setData(contentUri);
+                this.sendBroadcast(mediaScanIntent);
+
+                uploadImageToFirebase(f.getName(), contentUri);
+
+
+            }
+
+        }
+
+        if (requestCode == GALLERY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri contentUri = data.getData();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                Log.d("tag", "onActivityResult: Gallery Image Uri:  " + imageFileName);
+                selectedImage.setImageURI(contentUri);
+
+                uploadImageToFirebase(imageFileName, contentUri);
+
+
+            }
+
+        }
+
 
     }
+
 
     private void uploadToFirebase(byte[] bb) {
         StorageReference sr = mstorageRef.child("myimages/a.jpg");
